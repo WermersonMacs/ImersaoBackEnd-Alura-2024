@@ -1,7 +1,18 @@
 import { MongoClient } from 'mongodb';
 
+let mongoClient;
+
 export default async function conectarAoBanco(stringConexao) {
-    let mongoClient;
+    
+
+    if (!stringConexao || !stringConexao.startsWith('mongodb')) {
+      throw new Error('String de conexão inválida ou não definida.');
+  }
+
+  if (mongoClient) {
+      console.log('Usando cliente MongoDB já existente.');
+      return mongoClient;
+  }
 
     try {
         mongoClient = new MongoClient(stringConexao);
@@ -12,6 +23,6 @@ export default async function conectarAoBanco(stringConexao) {
         return mongoClient;
     } catch (erro) {
         console.error('Falha na conexão com o banco!', erro);
-        process.exit();
+        throw erro;
     }
 }
