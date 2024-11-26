@@ -36,5 +36,5 @@ export async function criarPost(novoPost) {
   const db = dbConnection.db("imersao-instabytes");
   const colecao = db.collection("posts");
   const resultado = await colecao.insertOne(novoPost);
-  return resultado.ops[0];
+  return resultado;
 }
